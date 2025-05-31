@@ -6,16 +6,16 @@ import tempfile
 import os
 a
 st.set_page_config(page_title="MIDI × 動画・画像ツール", layout="centered")
-st.title("🎥 MIDIに合わせて動画 or 画像をパッパッと出すツール")
+st.title("MIDIに合わせて動画 or 画像をパッパッと出すツール")
 
 # アップロードUI
-midi_file = st.file_uploader("🎼 MIDIファイルをアップロード", type=["mid", "midi"])
-video_file = st.file_uploader("🎬 動画ファイル（.mp4 / .mov など）", type=["mp4", "mov"])
+midi_file = st.file_uploader("MIDIファイルをアップロード", type=["mid", "midi"])
+video_file = st.file_uploader("動画ファイル（.mp4 / .mov など）", type=["mp4", "mov"])
 image_file = st.file_uploader(
-    "🖼 画像ファイル（.png / .jpg）", type=["png", "jpg", "jpeg"])
+    "画像ファイル（.png / .jpg）", type=["png", "jpg", "jpeg"])
 
-use_flip = st.checkbox("🔁 音符ごとに左右反転を切り替える", value=False)X
-duration = st.slider("🕒 音符ごとの表示時間（秒）", 0.1, 1.0, 0.3, 0.1)
+use_flip = st.checkbox("音符ごとに左右反転を切り替える", value=False)X
+duration = st.slider("音符ごとの表示時間（秒）", 0.1, 1.0, 0.3, 0.1)
 
 if midi_file and (video_file or image_file):
     # 一時保存
@@ -90,9 +90,9 @@ final_clip = concatenate_videoclips(output_clips, method="compose")
 output_path = tempfile.NamedTemporaryFile(suffix=".mp4", delete=False).name
 final_clip.write_videofile(output_path, fps=24, audio=False)
 
-st.success("✅ 動画を生成しました！")
+st.success("動画を生成しました！")
 st.video(output_path)
 with open(output_path, "rb") as f:
-st.download_button("⬇️ 動画をダウンロード", f.read(), file_name="output.mp4")
+st.download_button("⬇動画をダウンロード", f.read(), file_name="output.mp4")
 else:
-st.warning("⚠️ 有効な音符タイミングが見つかりませんでした。")
+st.warning("⚠有効な音符タイミングが見つかりませんでした。")
