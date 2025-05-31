@@ -1,4 +1,5 @@
-streamlit
-mido
-moviepy
-imageio-ffmpeg
+streamlit==1.25.0
+mido==1.2.10
+moviepy==1.0.3
+imageio-ffmpeg==0.4.7
+pip>=23.0
