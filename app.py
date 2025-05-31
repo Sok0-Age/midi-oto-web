@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 import streamlit as st
 from mido import MidiFile
 from moviepy.editor import VideoFileClip, ImageClip, concatenate_videoclips, vfx
