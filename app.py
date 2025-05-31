@@ -3,20 +3,21 @@ from mido import MidiFile
 from moviepy.editor import VideoFileClip, ImageClip, concatenate_videoclips, vfx
 import tempfile
 import os
-
+a
 st.set_page_config(page_title="MIDI × 動画・画像ツール", layout="centered")
 st.title("🎥 MIDIに合わせて動画 or 画像をパッパッと出すツール")
 
 # アップロードUI
 midi_file = st.file_uploader("🎼 MIDIファイルをアップロード", type=["mid", "midi"])
 video_file = st.file_uploader("🎬 動画ファイル（.mp4 / .mov など）", type=["mp4", "mov"])
-image_file = st.file_uploader("🖼 画像ファイル（.png / .jpg）", type=["png", "jpg", "jpeg"])
+image_file = st.file_uploader(
+    "🖼 画像ファイル（.png / .jpg）", type=["png", "jpg", "jpeg"])
 
-use_flip = st.checkbox("🔁 音符ごとに左右反転を切り替える", value=False)
+use_flip = st.checkbox("🔁 音符ごとに左右反転を切り替える", value=False)X
 duration = st.slider("🕒 音符ごとの表示時間（秒）", 0.1, 1.0, 0.3, 0.1)
 
 if midi_file and (video_file or image_file):
-# 一時保存
+    # 一時保存
 with tempfile.NamedTemporaryFile(delete=False, suffix=".mid") as tmp_midi:
 tmp_midi.write(midi_file.read())
 midi_path = tmp_midi.name
@@ -37,8 +38,10 @@ media_type = None
 
 # MIDI処理
 midi = MidiFile(midi_path)
-track_names = [f"{i}: {t.name or 'Untitled'}" for i, t in enumerate(midi.tracks)]
-selected_index = st.selectbox("🎚 使用するMIDIトラックを選択", range(len(track_names)), format_func=lambda i: track_names[i])
+track_names = [f"{i}: {t.name or 'Untitled'}" for i,
+               t in enumerate(midi.tracks)]
+selected_index = st.selectbox("🎚 使用するMIDIトラックを選択", range(
+    len(track_names)), format_func=lambda i: track_names[i])
 selected_track = midi.tracks[selected_index]
 
 # ノートのタイミング抽出
@@ -51,12 +54,14 @@ note_times.append(current_time)
 
 # 時間に変換
 ticks_per_beat = midi.ticks_per_beat
-tempo = 500000 # default 120BPM
+tempo = 500000  # default 120BPM
 for msg in midi.tracks[0]:
 if msg.type == 'set_tempo':
 tempo = msg.tempo
 break
-tick_to_sec = lambda t: t * tempo / ticks_per_beat / 1_000_000
+def tick_to_sec(t): return t * tempo / ticks_per_beat / 1_000_000
+
+
 note_times_sec = [tick_to_sec(t) for t in note_times]
 
 # 出力クリップ作成
